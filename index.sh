@@ -336,5 +336,40 @@ do
       4)
       shutdown now
       ;;
+      admin)
+        echo -n "Contraseña: "
+        read contrasena
+        if [[ $contrasena === "1212" ]];
+        then
+          clear
+          echo "Bienvenido Administrador"
+          echo
+          echo "1. Gestionar Tienda"
+          echo "2. Abrir repositorio Github"
+          echo
+          echo -n "Opción? "
+          read op
+          case $op in
+              1)
+                clear
+                echo "Gestionar Tienda"
+                echo
+                echo "1. Añadir Skin"
+                echo "2. Borrar Skin"
+                echo
+                echo -n "Opción? "
+                read op
+                case $op in
+                    1)
+                      clear
+                    ;;
+                    2)
+                      clear
+                    ;;
+                esac
+              ;;
+          esac
+        fi
+      ;;
     esac
 done
