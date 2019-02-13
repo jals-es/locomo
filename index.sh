@@ -11,6 +11,7 @@ do
   case "$op" in
       1)
         #Iniciar Sesión
+        /usr/bin/resize -s 26 56
         registro="0"
         until [ $registro -eq 1 ];
         do
@@ -252,6 +253,7 @@ do
                         echo "Has entrado en el Top5"
                         echo "$id:$usuario:$fecha:$hora:$puntos" >> bd/ranking/top.txt
                       fi
+                      /usr/bin/resize -s 26 56
                       sleep 2
                     ;;
                     3)
