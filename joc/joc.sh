@@ -7,9 +7,9 @@ tput civis
 stty -echo
 max_x=$(($(tput cols) - ${#text}))
 max_y=$(($(tput lines) - ${#text}))
-text="W"
-textB="W"
-textA="W"
+text=`echo $skin | cut -c1`
+textB=`echo $skin | cut -c2`
+textA=`echo $skin | cut -c3`
 dir=1 x=$(($max_x / 2)) y=$max_y
 #color=`echo $(($RANDOM%9))`
 color=2

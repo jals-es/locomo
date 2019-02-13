@@ -40,17 +40,19 @@ do
               echo -n "Logueado Correctamente"
               sleep 2
               registro=1
-              until [ $op -eq 5 ];
+              until [ $op -eq 6 ];
               do
+                skinM=`cat bd/skins/usuarios/$usuario.txt | cut -d ":" -f2`
                 clear
-                echo "Sesion: $usuario"
+                echo "Sesión: $usuario     Mondedero: $skinM€"
                 echo
                 echo
                 echo "1. Nueva Partida"
                 echo "2. Cargar Partida"
                 echo "3. Historial de Partidas"
                 echo "4. Top 5"
-                echo "5. Salir"
+                echo "5. Tienda de Skins"
+                echo "6. Salir"
                 echo
                 echo -n "Opción? "
                 read op
@@ -58,6 +60,8 @@ do
                     1)
                       #Nueva Partida
                       clear
+                      skin=`cat bd/skins/usuarios/$usuario.txt | cut -d ":" -f1`
+                      skinM=`cat bd/skins/usuarios/$usuario.txt | cut -d ":" -f2`
                       puntosN=0
                       vidasN1=3
                       vidasN2="<3 <3 <3"
@@ -72,6 +76,8 @@ do
                       then
                         partidasg=`cat bd/usuarios/$usuario.txt | wc -l`
                         echo "$partidasg:$fecha:$hora:$puntos" >> bd/usuarios/$usuario.txt
+                        skinM=$(($skinM + $puntos))
+                        echo "$skin:$skinM" > bd/skins/usuarios/$usuario.txt
                         if [[ $nrecords -eq 5 ]];
                         then
                           tc1=`cat "bd/ranking/top.txt" | head -1 | tail -1`
@@ -284,6 +290,44 @@ do
                       read a
                     ;;
                     5)
+                      #Tienda de `cat bd/skins/tienda/skins.txt | head -$a | tail -1 | cut -d":" -f3`Skins
+                      clear
+                      skins=`cat bd/skins/tienda/skins.txt | wc -l`
+                      echo "Nº  SKIN  PRECIO"
+                      echo
+                      for a in `seq $skins`
+                      do
+                        echo -n "`cat bd/skins/tienda/skins.txt | head -$a | tail -1 | cut -d":" -f1`   "
+                        echo -n "`cat bd/skins/tienda/skins.txt | head -$a | tail -1 | cut -d":" -f2`   "
+                        echo "`cat bd/skins/tienda/skins.txt | head -$a | tail -1 | cut -d":" -f3`"
+                      done
+                      echo
+                      echo 0 para cancelar
+                      echo -n "Nº de la SKIN que quieres comprar? "
+                      read nskin
+                      if [[ $nskin -eq 0 ]];
+                      then
+                        a=1
+                      else
+                        skin=`cat bd/skins/tienda/skins.txt | head -$nskin | tail -1 | cut -d":" -f2`
+                        skinC=`cat bd/skins/tienda/skins.txt | head -$nskin | tail -1 | cut -d":" -f3`
+                        skinC=`echo $skinC | tr -d "€"`
+                        skinM=`cat bd/skins/usuarios/$usuario.txt | cut -d ":" -f2`
+                        if [[ "$skinC" -le "$skinM" ]];
+                        then
+                          clear
+                          skinM=$(($skinM - $skinC))
+                          echo "$skin:$skinM" > bd/skins/usuarios/$usuario.txt
+                          echo "Skin $skin comprada. Saldo restante: $skinM€"
+                          sleep 2
+                        else
+                          clear
+                          echo No tienes suficientes €
+                          sleep 2
+                        fi
+                      fi
+                    ;;
+                    6)
                       #salir
                       clear
                     ;;
@@ -322,6 +366,7 @@ do
           else
             clear
             echo "$usuario:$contrasena" >> "bd/usuarios/$usuario.txt"
+            echo "WWW:0" >> "bd/skins/usuarios/$usuario.txt"
             echo -n "Usuario Registrado"
             sleep 2
             registro=1
@@ -339,7 +384,7 @@ do
       admin)
         echo -n "Contraseña: "
         read contrasena
-        if [[ $contrasena === "1212" ]];
+        if [[ $contrasena -eq "1212" ]];
         then
           clear
           echo "Bienvenido Administrador"
