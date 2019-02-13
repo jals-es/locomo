@@ -80,11 +80,31 @@ do
           #vidasD="<3 <3 <3"
           #puntos=0
           x=$(($max_x / 2))
+          /usr/bin/resize -s 24 80
         fi
         if [[ $xa -eq "0" ]];
         then
           xa=1
         fi
+      fi
+      if [ $puntos -le 10 ];
+        then
+          /usr/bin/resize -s 26 56
+        elif [ $puntos -le 20 ];
+        then
+          /usr/bin/resize -s 26 65
+        elif [ $puntos -le 30 ];
+        then
+          /usr/bin/resize -s 26 75
+        elif [ $puntos -le 40 ];
+        then
+          /usr/bin/resize -s 26 80
+        elif [ $puntos -le 50 ];
+        then
+          /usr/bin/resize -s 26 100
+        elif [ $puntos -gt 50 ];
+        then
+          /usr/bin/resize -s 26 140
       fi
     fi
 
