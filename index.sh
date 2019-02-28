@@ -409,9 +409,25 @@ do
                 case $op in
                     1)
                       clear
+                      w=`cat bd/skins/tienda/skins.txt | wc -l`
+                      w=$(($w + 1))
+                      clear
+                      echo  -n "Escriba la skin que quiera añadir: "
+                      read skin
+                      echo  -n "Escriba el precio de la skin $skin: "
+                      read precioskin
+                      echo "$w:$skin:$precioskin€" >> "bd/skins/tienda/skins.txt"
+
                     ;;
                     2)
                       clear
+                      echo -n "Numero de la linea de la skin que desea borrar: "
+                      read borrarskin
+                      sed -i".bak" $borrarskin bd/skins/tienda/skins.txt
+                      sleep 2
+                      echo "La skin ha sido borrada."
+                      read sknb
+
                     ;;
                 esac
               ;;
